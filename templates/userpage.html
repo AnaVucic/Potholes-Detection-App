@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Pothole Detection App</title>
+{% endblock %}
+
+
+{% block body %}
+<!-- <div class="content">
+    <table>  
+        <tr>
+            <th>Id</th>
+            <th>Created</th>
+            <th>Strength</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Velocity in m/s^2</th>
+        </tr>
+        {% for pothole in potholes %}
+            <tr>
+                <td>{{ pothole.id }}</td>
+                <td>{{ pothole.datetime.strftime("%Y-%m-%d %H:%M") }}</td>
+                <td>{{ pothole.strength }}</td>
+                <td>{{ pothole.longitude }}</td>
+                <td>{{ pothole.latitude }}</td>
+                <td>{{ pothole.accel }}</td>
+                <td>
+                  ##   <a href="/delete/{{pothole.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{pothole.id}}">Update</a>  
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <form action="/" method="POST">
+        
+        <input type="submit" value="Save Pothole">
+        <input type="submit" value="Show Potholes">
+    </form>
+</div> -->
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Potholes</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center;">Update Book</h1>
+    
+    <form action="/update/{{pothole.id}}" method="POST">
+        <input type="text" name="longitude" id="longitude" value="{{pothole.longitude}}">
+        <input type="text" name="latitude" id="latitude" value="{{pothole.latitude}}">
+        <input type="text" name="velocity" id="velocity" value="{{pothole.velocity}}">
+        <input type="text" name="strength" id="strength" value="{{pothole.strength}}">
+        <input type="submit" value="Update pothole">
+    </form>
+</div>
+{% endblock %}

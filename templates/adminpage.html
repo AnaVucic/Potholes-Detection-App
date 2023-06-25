@@ -6,41 +6,55 @@
 
 
 {% block body %}
-<div class="content">
-    <table class="table">  
-        <tr>
-            <th>Id</th>
-            <th>Created</th>
-            <th>Strength</th>
-            <th>Longitude</th>
-            <th>Latitude</th>
-            <th>Velocity in m/s^2</th>
-            <th>Actions</th>
-        </tr>
-        {% for pothole in potholes %}
-            <tr>
-                <td>{{ pothole.id }}</td>
-                <td>{{ pothole.datetime.strftime("%Y-%m-%d %H:%M") }}</td>
-                <td>{{ pothole.strength }}</td>
-                <td>{{ pothole.longitude }}</td>
-                <td>{{ pothole.latitude }}</td>
-                <td>{{ pothole.accel }}</td>
-                <td>
-                 <a href="/delete/{{pothole.id}}">Delete</a>
-                    <br>
-                    <a href="/update/{{pothole.id}}">Update</a> 
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-    <form action="/adminpage" method="POST">
-        
-        <input type="submit" value="Save Pothole">
-    </form>
-    <form action="/show-potholes" method="GET">
-        
-        <input type="submit" value="Show Potholes">
-    </form>
+<div class="container_form">
+    <div class="column">
+        <form action="/adminpage" method="POST">
+
+            <button type="submit" class="btn btn-dark">Update Potholes</button>
+        </form>
+        <form action="/show-potholes" method="GET">
+
+            <button type="submit" class="btn btn-dark">Show Pothole</button>
+        </form>
+
+        <form action="/logout">
+
+            <button type="submit" class="btn btn-dark">Logout</button>
+        </form>
+    </div>
+    <div class="column">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Strength</th>
+                    <th scope="col">Longitude</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">Velocity in m/s^2</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pothole in potholes %}
+
+                <tr>
+                    <td>{{ pothole.id }}</td>
+                    <td>{{ pothole.datetime.strftime("%Y-%m-%d %H:%M") }}</td>
+                    <td>{{ pothole.strength }}</td>
+                    <td>{{ pothole.longitude }}</td>
+                    <td>{{ pothole.latitude }}</td>
+                    <td>{{ pothole.accel }}</td>
+                    <td>
+                        <a href="/delete/{{pothole.id}}">Delete</a>
+                        <br>
+                        <a href="/update/{{pothole.id}}">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
 {% endblock %}

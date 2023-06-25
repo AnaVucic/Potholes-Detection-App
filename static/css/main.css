@@ -1,7 +1,6 @@
 body, html {
     margin: 0;
     font-family: sans-serif;
-    background-color: lightsteelblue;
 }
 
 .content {
@@ -39,3 +38,15 @@ form {
 #content {
     width: 70%;
 }
+
+.container_form {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-gap: 10px; /* Gap between columns */
+  }
+
+.update_form{
+    border: 1px solid black;
+    padding: 20px;
+    }

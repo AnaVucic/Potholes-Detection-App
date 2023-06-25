@@ -112,54 +112,49 @@ def userpage():
         # pstr = "Mild"
         # new_pothole = Pothole(longitude = plong, latitude = plat, accel = paccel, strength = pstr)
 
-        with open('server/accelerometer.txt', 'r') as file1, open('server/gyroscope.txt', 'r') as file2, open('server/location.txt', 'r') as file3: 
-            for line1, line2, line3 in zip(file1, file2, file3): 
+        potholes_to_add = []
+
+        with open('server/accelerometer.txt', 'r') as file1, open('server/gyroscope.txt', 'r') as file2, open('server/location.txt', 'r') as file3:
+            for line1, line2, line3 in zip(file1, file2, file3):
                 adict = ast.literal_eval(line1)
                 gdict = ast.literal_eval(line2)
                 ldict = ast.literal_eval(line3)
 
-                if abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])) > 1.5 and abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])) < 3:
-                    print(abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])))
-                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 +float(adict['y'])**2) *0.1)
-                    long = float(ldict['longitude'])
-                    lat = float(ldict['latitude'])
-                
-                    new_pothole = Pothole(strength = 'Mild', accel = accel, longitude = long, latitude = lat)
-                    try:
-                        db.session.add(new_pothole)
-                        db.session.commit()
-                        return redirect('/')
-                    except:
-                        return "There was an issue adding your pothole"
+                total_acceleration = abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z']))
 
-                elif abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])) >= 3 and abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])) < 6:
-                    print(abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])))
-                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 +float(adict['y'])**2) *0.1)
+                if 1.5 < total_acceleration < 3:
+                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 + float(adict['y'])**2) * 0.1)
                     long = float(ldict['longitude'])
                     lat = float(ldict['latitude'])
-                
-                    new_pothole = Pothole(strength = 'Intermediate', accel = accel, longitude = long, latitude = lat)
-                    try:
-                        db.session.add(new_pothole)
-                        db.session.commit()
-                        return redirect('/')
-                    except:
-                        return "There was an issue adding your pothole"
-                elif abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])) >=6:
-                    print(abs(float(gdict['x'])) + abs(float(gdict['y'])) + abs(float(gdict['z'])))
-                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 +float(adict['y'])**2) *0.1)
+
+                    new_pothole = Pothole(strength='Mild', accel=accel, longitude=long, latitude=lat)
+                    potholes_to_add.append(new_pothole)
+                elif 3 <= total_acceleration < 6:
+                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 + float(adict['y'])**2) * 0.1)
                     long = float(ldict['longitude'])
                     lat = float(ldict['latitude'])
-                
-                    new_pothole = Pothole(strength = 'Severe', accel = accel, longitude = long, latitude = lat)
-                    try:
-                        db.session.add(new_pothole)
-                        db.session.commit()
-                        return redirect('/')
-                    except:
-                        return "There was an issue adding your pothole"
+
+                    new_pothole = Pothole(strength='Intermediate', accel=accel, longitude=long, latitude=lat)
+                    potholes_to_add.append(new_pothole)
+                elif total_acceleration >= 6:
+                    accel = round(math.sqrt(float(adict['z'])**2 + float(adict['x'])**2 + float(adict['y'])**2) * 0.1)
+                    long = float(ldict['longitude'])
+                    lat = float(ldict['latitude'])
+
+                    new_pothole = Pothole(strength='Severe', accel=accel, longitude=long, latitude=lat)
+                    potholes_to_add.append(new_pothole)
                 else:
                     pass
+
+        for pothole in potholes_to_add:
+            try:
+                db.session.add(pothole)
+
+            except:
+                return "There was an issue adding your pothole"
+
+        db.session.commit()
+        return redirect('/userpage')
     else:
         potholes = Pothole.query.order_by(Pothole.strength).all()
         return render_template('userpage.html', potholes = potholes)

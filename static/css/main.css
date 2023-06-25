@@ -41,9 +41,9 @@ form {
 
 .container_form {
     padding: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    grid-gap: 10px; /* Gap between columns */
+    display: flex;
+    grid-template-columns: 1fr 5fr; 
+    grid-gap: 20px; 
   }
 
 .update_form{

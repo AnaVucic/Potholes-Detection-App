@@ -37,7 +37,6 @@ class Pothole(db.Model):
     accel = db.Column(db.Float, nullable=False)
     strength = db.Column(db.String, nullable=False)
     datetime = db.Column(db.DateTime, default=datetime.utcnow)
-
     
     def __repr__(self):
         return '<Pothole %r>' % self.id
@@ -49,8 +48,8 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -156,7 +155,7 @@ def userpage():
         db.session.commit()
         return redirect('/userpage')
     else:
-        potholes = Pothole.query.order_by(Pothole.strength).all()
+        potholes = Pothole.query.order_by(Pothole.datetime.desc() ).all()
         return render_template('userpage.html', potholes = potholes)
 
 @app.route('/adminpage', methods=['GET','POST'])
@@ -212,7 +211,7 @@ def adminpage():
         db.session.commit()
         return redirect('/adminpage')
     else:
-        potholes = Pothole.query.order_by(Pothole.strength).all()
+        potholes = Pothole.query.order_by(Pothole.datetime.desc()).all()
         return render_template('adminpage.html', potholes = potholes)
 
 @app.route('/delete/<int:id>')

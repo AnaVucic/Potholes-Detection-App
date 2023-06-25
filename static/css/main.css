@@ -50,3 +50,16 @@ form {
     border: 1px solid black;
     padding: 20px;
     }
+
+.column1{
+    flex: 1;
+}
+
+.column2{
+    flex: 2;
+}
+
+.buttons_display{
+    display: flex;
+    padding: 20px;
+}

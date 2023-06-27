@@ -51,7 +51,7 @@ async def echo(websocket, path):
             print(data)
             f = open("accelerometer.txt", "a")
             f.write(data+"\n")
-
+            f.close()
         if path == '/gyroscope':
            
             data = await websocket.recv()
@@ -59,8 +59,8 @@ async def echo(websocket, path):
             f = open("gyroscope.txt", "a")
             f.write(data+"\n")
             
-            request_url = 'https://api.ipgeolocation.io/ipgeo?ip=OVDE IP ADRESA'
-            response = requests.get(request_url, params = {'apiKey':'OVDE KEY'})
+            request_url = 'https://api.ipgeolocation.io/ipgeo?ip=147.91.128.87'
+            response = requests.get(request_url, params = {'apiKey':'d31ad2767ed3409c8ed922c4a17b1c76'})
             result = response.content.decode()
             # result = result.split("(")[1].strip(")")
             result  = json.loads(result)
@@ -70,7 +70,7 @@ async def echo(websocket, path):
                            'latitude' : result['latitude']})
             f = open("location.txt", "a")
             f.write(str(result)+"\n")
-        
+            f.close()
         
 
 def getpot():
